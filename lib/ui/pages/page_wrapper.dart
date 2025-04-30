@@ -62,7 +62,8 @@ class PageWrapper extends StatelessWidget {
       ),
       drawer: SideMenu(),
       body: SafeArea(
-        child: useScroll ? SingleChildScrollView(child: child) : child,
+        // child: useScroll ? SingleChildScrollView(child: child) : child,
+        child: SingleChildScrollView(child: child),
       ),
     );
   }

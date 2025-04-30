@@ -34,13 +34,13 @@ class SelectDeviceDialog extends StatelessWidget {
                   subtitle: Text(item.$2),
                   trailing: Obx(
                     () =>
-                        connecting.value == item.$1
+                        connecting.value == item.$2
                             ? const CircularProgressIndicator()
                             : const SizedBox(),
                   ),
                   onTap: () {
                     if (connecting.value.isEmpty) {
-                      connecting.value = item.$1;
+                      connecting.value = item.$2;
                       connectCallback(item.$1, item.$2);
                     }
                   },

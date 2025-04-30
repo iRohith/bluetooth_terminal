@@ -16,14 +16,17 @@ class SettingsPage extends StatelessWidget {
     final ds = DataService.to;
 
     final ssid = ds.getVar("ssid", "", save: true);
+    final username = ds.getVar("username", "", save: true);
     final pwd = ds.getVar("pwd", "", save: true);
     final wsrelay = ds.getVar("wsrelay", "ws://", save: true);
 
     final ssidCtrl = TextEditingController(text: ssid.value);
+    final usernameCtrl = TextEditingController(text: username.value);
     final pwdCtrl = TextEditingController(text: pwd.value);
     final wsrelayCtrl = TextEditingController(text: wsrelay.value);
 
     ssidCtrl.addListener(() => ssid.value = ssidCtrl.text);
+    usernameCtrl.addListener(() => username.value = usernameCtrl.text);
     pwdCtrl.addListener(() => pwd.value = pwdCtrl.text);
     wsrelayCtrl.addListener(() => wsrelay.value = wsrelayCtrl.text);
 
@@ -141,6 +144,16 @@ class SettingsPage extends StatelessWidget {
                 ),
 
                 TextField(
+                  controller: usernameCtrl,
+                  decoration: InputDecoration(
+                    labelText: "WPA2 Username",
+                    border: const OutlineInputBorder(),
+                  ),
+                  keyboardType: TextInputType.name,
+                  maxLines: 1,
+                ),
+
+                TextField(
                   controller: wsrelayCtrl,
                   decoration: InputDecoration(
                     labelText: "WS Relay URL",
@@ -155,14 +168,18 @@ class SettingsPage extends StatelessWidget {
                   children: [
                     ElevatedButton(
                       onPressed: () async {
-                        ConnectionService.to.writeMessage("SSID:${ssid.value};;PWD:${pwd.value}", log: false);
+                        ConnectionService.to.writeMessage(
+                          "SSID:${ssid.value};;PWD:${pwd.value};;USERNAME:${username.value}",
+                          log: false,
+                        );
                       },
                       style: ElevatedButton.styleFrom(
                         shape: RoundedRectangleBorder(
                           borderRadius: BorderRadius.circular(12),
                         ),
                         backgroundColor: Get.theme.colorScheme.primaryContainer,
-                        foregroundColor: Get.theme.colorScheme.onPrimaryContainer,
+                        foregroundColor:
+                            Get.theme.colorScheme.onPrimaryContainer,
                         elevation: 8,
                       ),
                       child: const Text("Send Creds"),
@@ -170,14 +187,18 @@ class SettingsPage extends StatelessWidget {
 
                     ElevatedButton(
                       onPressed: () async {
-                        ConnectionService.to.writeMessage("WSRELAY:${wsrelay.value}", log: false);
+                        ConnectionService.to.writeMessage(
+                          "WSRELAY:${wsrelay.value}",
+                          log: false,
+                        );
                       },
                       style: ElevatedButton.styleFrom(
                         shape: RoundedRectangleBorder(
                           borderRadius: BorderRadius.circular(12),
                         ),
                         backgroundColor: Get.theme.colorScheme.primaryContainer,
-                        foregroundColor: Get.theme.colorScheme.onPrimaryContainer,
+                        foregroundColor:
+                            Get.theme.colorScheme.onPrimaryContainer,
                         elevation: 8,
                       ),
                       child: const Text("Send Relay"),
